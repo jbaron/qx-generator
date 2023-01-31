@@ -1,0 +1,52 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": "qx.*"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build",
+      "bundle": {
+        "include": "qx.*"
+      }
+    }
+  ],
+  "defaultTarget": "build",
+  "locales": ["en"],
+  "environment": {
+      "qx.icontheme": "TangibleLight"
+  },
+  "applications": [
+    {
+      "class": "fullapp.Application",
+      "theme": "qx.theme.TangibleLight",
+      "name": "fullapp",
+      "bootPath": "source/boot",
+      "include": [ 
+        "qx.ui.*", 
+        "qx.theme.*",
+        "qx.registry.*", 
+        "fullapp.*",
+        "qx.bom.*",
+        "qx.data.*",
+        "qx.core.*",
+        "qx.lang.*",
+        "qx.dom.*",
+        "qx.util.*",
+        "qx.event.*",
+        "qx.io.*",
+        "qx.html.*"
+      ], 
+      "exclude" : [
+        "qx.ui.mobile.*",
+        "qx.ui.website.*"
+      ]
+    }
+  ]
+ 
+}
