@@ -1,6 +1,6 @@
-# fullapp
+# qx generator
 
-This is an app with the sole purpose of generating a JavaScript file that contains most qooxdoo classes and can be used standalone in a qooxdoo TypeScript project.
+This is the project with the sole purpose of generating a JavaScript file that contains most qooxdoo classes and can be used standalone in a qooxdoo TypeScript project.
 It does basically serve two purposes:
 
 1. Have a small bootstrap app included that allows to register a function as a starting point for a qooxdoo application. See source/class/bootstrap/Application.js
@@ -23,3 +23,11 @@ Or to see it in action with the default app, run the following command:
 ```
 npx qx serve
 ```
+
+## All projects
+There are totally three projects:
+
+1. qx-parser - creates the qooxdoo.d.ts declaration file
+2. qx-generator - generates the qooxdoo.js file
+3. qx-typed - a Ssample project that demonstrates how to develop TypeScript qooxdoo applications
+
