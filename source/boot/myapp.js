@@ -1,100 +1,170 @@
 /**
- * Create a button
+ * Example of extending an qooxdoo class
  */
-function createButton() {
-    const button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
-    const button2 = new qx.ui.form.Button("Dark Theme", "icon/22/apps/internet-web-browser.png");
-    const button3 = new qx.ui.form.Button("Light Theme", "icon/22/apps/internet-web-browser.png");
-    // Add an event listener
-    let t = qx.theme;
-    button1.addListener("execute", function (e) { alert("Hello World!"); });
-    button2.addListener("execute", function (e) { qx.theme.manager.Meta.getInstance().setTheme(t.TangibleDark); });
-    button3.addListener("execute", function (e) { qx.theme.manager.Meta.getInstance().setTheme(t.TangibleLight); });
-    let c = new qx.ui.container.Composite(new qx.ui.layout.Flow());
-    c.add(button1);
-    c.add(button2);
-    c.add(button3);
-    return c;
+class MyPage extends qx.ui.tabview.Page {
+    constructor(name) {
+        super(name);
+        this.setLayout(new qx.ui.layout.Canvas());
+        this.setShowCloseButton(true);
+    }
+}
+/**
+ * This is the main function that will be called from the qooxdoo application to start everything.
+ */
+function qooxdooMain(app) {
+    const t = new qx.ui.tabview.TabView();
+    t.add(new ButtonsPage());
+    t.add(new FormPage());
+    t.add(new TablePage());
+    t.add(createTree()); // example using function instead of class
+    t.add(new ToolBarPage());
+    t.add(new WindowsPage());
+    // add the tabview to the root
+    const root = app.getRoot();
+    root.add(t, { edge: 0 });
+}
+// register the main function
+qx.registry.registerMainMethod(qooxdooMain);
+// Example import
+var Button = qx.ui.form.Button;
+class ButtonsPage extends MyPage {
+    constructor() {
+        super("Buttons");
+        const button1 = new Button("Hello", "resource/app/internet-web-browser.png");
+        const button2 = new Button("Dark Theme", "resource/app/preferences-theme.png");
+        const button3 = new Button("Light Theme", "resource/app/preferences-theme.png");
+        const button4 = new Button("Change layout", "@MaterialIcons/face"); // use an icon font
+        const meta = qx.theme.manager.Meta.getInstance();
+        button1.addListener("execute", function () { alert("Hello World!"); });
+        button2.addListener("execute", function () { meta.setTheme(qx.theme.TangibleDark); });
+        button3.addListener("execute", function () { meta.setTheme(qx.theme.TangibleLight); });
+        button4.addListener("execute", function () {
+            container.getLayout() == layout1 ? container.setLayout(layout2) : container.setLayout(layout1);
+        });
+        const layout1 = new qx.ui.layout.HBox();
+        const layout2 = new qx.ui.layout.VBox();
+        const container = new qx.ui.container.Composite(layout1);
+        container.add(button1);
+        container.add(button2);
+        container.add(button3);
+        container.add(button4);
+        this.add(container);
+    }
 }
 /**
  * Create a sample form.
  */
-function createForm() {
-    const form = new qx.ui.form.Form();
-    // add the first headline
-    form.addGroupHeader("Registration");
-    // add username
-    const userName = new qx.ui.form.TextField();
-    userName.setRequired(true);
-    form.add(userName, "Name");
-    // add password
-    const password = new qx.ui.form.PasswordField();
-    password.setRequired(true);
-    form.add(password, "Password");
-    // add a save checkbox
-    form.add(new qx.ui.form.CheckBox(), "Save?");
-    // add the second header
-    form.addGroupHeader("Personal Information");
-    // add some additional widgets
-    form.add(new qx.ui.form.Spinner(0, 50, 100), "Age");
-    form.add(new qx.ui.form.TextField(), "Country");
-    const genderBox = new qx.ui.form.SelectBox();
-    genderBox.add(new qx.ui.form.ListItem("male"));
-    genderBox.add(new qx.ui.form.ListItem("female"));
-    form.add(genderBox, "Gender");
-    form.add(new qx.ui.form.TextArea(), "Bio");
-    // send button with validation
-    const sendButton = new qx.ui.form.Button("Send");
-    sendButton.addListener("execute", function () {
-        if (form.validate()) {
-            alert("send...");
-        }
-    }, this);
-    form.addButton(sendButton);
-    // reset button
-    const resetButton = new qx.ui.form.Button("Reset");
-    resetButton.addListener("execute", function () {
-        form.reset("");
-    }, this);
-    form.addButton(resetButton);
-    // create the form and return it
-    return new qx.ui.form.renderer.Single(form);
-}
-/**
- * Create some random rows for the table example
- */
-function createRandomRows(rowCount) {
-    const rowData = [];
-    const now = new Date().getTime();
-    const dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
-    let nextId = 0;
-    for (let row = 0; row < rowCount; row++) {
-        const date = new Date(now + Math.random() * dateRange - dateRange / 2);
-        rowData.push([nextId++, Math.random() * 10000, date, (Math.random() > 0.5)]);
+class FormPage extends MyPage {
+    constructor() {
+        super("form");
+        const form = new qx.ui.form.Form();
+        this.addSection1(form);
+        this.addSection2(form);
+        // send button with validation
+        const sendButton = new qx.ui.form.Button("Send");
+        sendButton.addListener("execute", function () {
+            if (form.validate()) {
+                alert("send...");
+            }
+        }, this);
+        form.addButton(sendButton);
+        // reset button
+        const resetButton = new qx.ui.form.Button("Reset");
+        resetButton.addListener("execute", function () {
+            form.reset("");
+        }, this);
+        form.addButton(resetButton);
+        const formRenderer = new qx.ui.form.renderer.Single(form);
+        this.add(formRenderer);
     }
-    return rowData;
+    addSection1(form) {
+        form.addGroupHeader("Registration");
+        const userName = new qx.ui.form.TextField();
+        userName.setRequired(true);
+        form.add(userName, "Name");
+        const password = new qx.ui.form.PasswordField();
+        password.setRequired(true);
+        form.add(password, "Password");
+        form.add(new qx.ui.form.CheckBox(), "Save?");
+    }
+    addSection2(form) {
+        // add the second header
+        form.addGroupHeader("Personal Information");
+        form.add(new qx.ui.form.Spinner(0, 50, 100), "Age");
+        form.add(new qx.ui.form.TextField(), "Country");
+        const genderBox = new qx.ui.form.SelectBox();
+        genderBox.add(new qx.ui.form.ListItem("Man"));
+        genderBox.add(new qx.ui.form.ListItem("Woman"));
+        genderBox.add(new qx.ui.form.ListItem("Genderqueer/Non-Binary"));
+        genderBox.add(new qx.ui.form.ListItem("Prefer not to disclose"));
+        form.add(genderBox, "Gender");
+        form.add(new qx.ui.form.TextArea(), "Bio");
+    }
 }
-/**
- * Create an example using the table widget showing some basic
- * funcitonality
- */
-function createTable() {
-    // table model
-    const tableModel = new qx.ui.table.model.Simple();
-    tableModel.setColumns(["Billing-ID", "Amount", "Date", "Paid"]);
-    tableModel.setData(createRandomRows(100));
-    // make second column editable
-    tableModel.setColumnEditable(1, true);
-    // table
-    const table = new qx.ui.table.Table(tableModel);
-    table.set({
-        decorator: null
-    });
-    const tcm = table.getTableColumnModel();
-    // Display a checkbox in column 3
-    const renderer = new qx.ui.table.cellrenderer.Boolean(); // as any as qx.ui.table.ICellRenderer
-    tcm.setDataCellRenderer(3, renderer);
-    return table;
+class TablePage extends MyPage {
+    constructor() {
+        super("table");
+        const table = this.createTable();
+        table.setFocusedCell(2, 5);
+        this.add(table);
+    }
+    createTable() {
+        const rowData = this.createRandomRows(500);
+        const tableModel = new qx.ui.table.model.Simple();
+        tableModel.setColumns(["ID", "A number", "A date", "Boolean"]);
+        tableModel.setData(rowData);
+        tableModel.setColumnEditable(1, true);
+        tableModel.setColumnEditable(2, true);
+        tableModel.setColumnSortable(3, false);
+        const table = new qx.ui.table.Table(tableModel);
+        table.set({
+            width: 600,
+            height: 400,
+            decorator: null,
+        });
+        table
+            .getSelectionModel()
+            .setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+        const tcm = table.getTableColumnModel();
+        tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+        tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("resource/app/office-calendar.png", "A date"));
+        return table;
+    }
+    /**
+     * Create random rows for the table example
+     */
+    createRandomRows(rowCount) {
+        const rowData = [];
+        var nextId = 0;
+        const now = new Date().getTime();
+        var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+        for (var row = 0; row < rowCount; row++) {
+            const date = new Date(now + Math.random() * dateRange - dateRange / 2);
+            rowData.push([
+                nextId++,
+                Math.random() * 10000,
+                date,
+                Math.random() > 0.5,
+            ]);
+        }
+        return rowData;
+    }
+}
+class ToolBarPage extends MyPage {
+    constructor() {
+        super("Toolbar");
+        const toolBar = new qx.ui.toolbar.ToolBar();
+        toolBar.add(new qx.ui.toolbar.Button("Item 1"));
+        toolBar.add(new qx.ui.toolbar.Button("Item 2"));
+        toolBar.add(new qx.ui.toolbar.Separator());
+        const menuButton = new qx.ui.toolbar.MenuButton("Menu");
+        const menu = new qx.ui.menu.Menu();
+        for (let n = 1; n < 5; n++)
+            menu.add(new qx.ui.menu.Button("item-" + n));
+        menuButton.setMenu(menu);
+        toolBar.add(menuButton);
+        this.add(toolBar);
+    }
 }
 /**
  * Create a sample tree
@@ -103,54 +173,34 @@ function createTree() {
     // create the tree
     const tree = new qx.ui.tree.Tree();
     tree.set({ width: 150, height: 300 });
-    // create and set the tree root
-    const root = new qx.ui.tree.TreeFolder("Desktop");
-    tree.setRoot(root);
-    // create some subitems
-    const f1 = new qx.ui.tree.TreeFolder("Logos");
-    const f2 = new qx.ui.tree.TreeFolder("TODO");
-    const f3 = new qx.ui.tree.TreeFile("jsmag_js9.pdf");
-    f3.setIcon("icon/22/mimetypes/text-html.png");
-    root.add(f1, f2, f3);
-    // create a third layer
-    const f11 = new qx.ui.tree.TreeFile("Logo1.png");
-    f11.setIcon("icon/22/mimetypes/media-image.png");
-    const f12 = new qx.ui.tree.TreeFile("Logo2.png");
-    f12.setIcon("icon/22/mimetypes/media-image.png");
-    const f13 = new qx.ui.tree.TreeFile("Logo3.png");
-    f13.setIcon("icon/22/mimetypes/media-image.png");
-    f1.add(f11, f12, f13);
-    // open the folders
+    const root = new qx.ui.tree.TreeFolder("root");
     root.setOpen(true);
-    f1.setOpen(true);
-    return tree;
+    tree.setRoot(root);
+    // Make some dummy entries
+    for (let x = 1; x < 5; x++) {
+        const folder = new qx.ui.tree.TreeFolder("folder-" + x);
+        root.add(folder);
+        for (let y = 1; y < 9; y++) {
+            const file = new qx.ui.tree.TreeFolder("file-" + y);
+            folder.add(file);
+        }
+    }
+    const page = new MyPage("Tree");
+    page.add(tree);
+    return page;
 }
-/**
- * Simple class extension example
- */
-class MyPage extends qx.ui.tabview.Page {
-    constructor(name) {
-        super(name);
-        this.setLayout(new qx.ui.layout.Flow());
-        this.setShowCloseButton(true);
+class WindowsPage extends MyPage {
+    constructor() {
+        super("Windows");
+        const desktop = new qx.ui.window.Desktop();
+        for (let n = 1; n <= 5; n++) {
+            const win = new qx.ui.window.Window("Window " + n);
+            win.setShowStatusbar(true);
+            win.setMinWidth(200);
+            win.setDraggable(true);
+            win.open();
+            desktop.add(win, { left: n * 50, top: n * 50 });
+        }
+        this.add(desktop, { edge: 0, top: 0 });
     }
 }
-/**
- * This is the main function that will be called from the Qooxdoo application
- * to start everything.
- */
-function qooxdooMain(app) {
-    const demo = [createButton, createTable, createTree, createForm];
-    // Document is the application root container
-    const doc = app.getRoot();
-    // Lets create the container for the tabs
-    const t = new qx.ui.tabview.TabView("left");
-    //And now lets add some tabs
-    for (let x = 0; x < demo.length; x++) {
-        const p = new MyPage(demo[x].name);
-        p.add(demo[x]());
-        t.add(p);
-    }
-    doc.add(t, { edge: 0 });
-}
-qx.registry.registerMainMethod(qooxdooMain);

@@ -3,8 +3,8 @@
   "info" :
   {
     "name" : "fullapp",
-    "summary" : "undefined",
-    "description" : "undefined",
+    "summary" : "App that enables standalone use with TypeScript",
+    "description" : "App that enables standalone use with TypeScript",
     "homepage" : "undefined",
     "license" : "MIT license",
     "authors" : [],

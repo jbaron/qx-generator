@@ -1,18 +1,18 @@
 {
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "ignores": [ "qx.registry", "qx.registry.main", "qx.registry.app" , "qx.registry.setApp"],
   "targets": [
     {
       "type": "source",
-      "outputPath": "compiled/source",
-      "bundle": {
-        "include": "qx.*"
-      }
+      "outputPath": "compiled/source"
     },
     {
       "type": "build",
       "outputPath": "compiled/build",
+      "minify" : "mangle",
       "bundle": {
-        "include": "qx.*"
+        "include": "qx.*",
+        "exclude": "qx.$$resources"
       }
     }
   ],
@@ -23,7 +23,7 @@
   },
   "applications": [
     {
-      "class": "fullapp.Application",
+      "class": "bootstrap.Application",
       "theme": "qx.theme.TangibleLight",
       "name": "fullapp",
       "bootPath": "source/boot",
@@ -37,7 +37,6 @@
         "qx.core.*",
         "qx.lang.*",
         "qx.dom.*",
-        "qx.util.*",
         "qx.event.*",
         "qx.io.*",
         "qx.html.*"
@@ -45,6 +44,47 @@
       "exclude" : [
         "qx.ui.mobile.*",
         "qx.ui.website.*"
+      ]
+    },
+    {
+      "class": "bootstrap.Application",
+      "theme": "qx.theme.TangibleLight",
+      "name": "basicapp",
+      "bootPath": "source/boot",
+      "include": [ 
+        "qx.application.*",
+        "qx.bom.*",
+        "qx.Class",
+        "qx.core.*",
+        "qx.dom.*",
+        "qx.event.*",
+        "qx.html.*",
+        "qx.io.request.*",
+        "qx.lang.*",
+        "qx.log.*",
+        "qx.Mixin",
+        "qx.Part",
+        "qx.registry.*",
+        "qx.Theme",
+        "qx.theme.manager.*",
+        "qx.ui.basic.*",
+        "qx.ui.container.*",
+        "qx.ui.core.*",
+        "qx.ui.decoration.*",
+        "qx.ui.embed.*",
+        "qx.ui.form.*",
+        "qx.ui.layout.*",
+        "qx.ui.menu.*",
+        "qx.ui.menubar.*",
+        "qx.ui.popup.*",
+        "qx.ui.splitpane.*",
+        "qx.ui.table.*",
+        "qx.ui.tabview.*",
+        "qx.ui.toolbar.*",
+        "qx.ui.window.*",
+        "qx.util.format.*"
+      ],
+      "exclude" : [
       ]
     }
   ]
