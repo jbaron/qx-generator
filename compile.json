@@ -51,7 +51,7 @@
     },
     {
       "class": "bootstrap.Application",
-      "theme": "qx.theme.TangibleLight",
+      "theme": "qx.theme.Simple",
       "name": "basicapp",
       "bootPath": "source/boot",
       "include": [
