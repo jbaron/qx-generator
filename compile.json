@@ -1,24 +1,28 @@
 {
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
-  "ignores": [ "qx.registry", "qx.registry.main", "qx.registry.app" , "qx.registry.setApp"],
+  "ignores": [
+    "qx.registry",
+    "qx.registry.main",
+    "qx.registry.app",
+    "qx.registry.setApp"
+  ],
   "targets": [
     {
-      "type": "source",
-      "outputPath": "compiled/source"
-    },
-    {
       "type": "build",
-      "outputPath": "compiled/build",
-      "minify" : "mangle",
+      "outputPath": "build",
+      "minify": "mangle",
+      "writeCompileInfo": false,
       "bundle": {
         "include": "qx.*"
       }
     }
   ],
   "defaultTarget": "build",
-  "locales": ["en"],
+  "locales": [
+    "en"
+  ],
   "environment": {
-      "qx.icontheme": "TangibleLight"
+    "qx.icontheme": "TangibleLight"
   },
   "applications": [
     {
@@ -26,10 +30,10 @@
       "theme": "qx.theme.TangibleLight",
       "name": "fullapp",
       "bootPath": "source/boot",
-      "include": [ 
-        "qx.ui.*", 
+      "include": [
+        "qx.ui.*",
         "qx.theme.*",
-        "qx.registry.*", 
+        "qx.registry.*",
         "fullapp.*",
         "qx.bom.*",
         "qx.data.*",
@@ -39,8 +43,8 @@
         "qx.event.*",
         "qx.io.*",
         "qx.html.*"
-      ], 
-      "exclude" : [
+      ],
+      "exclude": [
         "qx.ui.mobile.*",
         "qx.ui.website.*"
       ]
@@ -50,7 +54,7 @@
       "theme": "qx.theme.TangibleLight",
       "name": "basicapp",
       "bootPath": "source/boot",
-      "include": [ 
+      "include": [
         "qx.application.*",
         "qx.bom.*",
         "qx.Class",
@@ -83,9 +87,7 @@
         "qx.ui.window.*",
         "qx.util.format.*"
       ],
-      "exclude" : [
-      ]
+      "exclude": []
     }
   ]
- 
 }

@@ -2,7 +2,7 @@
  "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
   "info" :
   {
-    "name" : "fullapp",
+    "name" : "qx-generator",
     "summary" : "App that enables standalone use with TypeScript",
     "description" : "App that enables standalone use with TypeScript",
     "homepage" : "undefined",
@@ -13,11 +13,9 @@
 
   "provides" :
   {
-    "namespace"   : "fullapp",
+    "namespace"   : "bootstrap",
     "encoding"    : "utf-8",
-    "class"       : "source/class",
-    "resource"    : "source/resource",
-    "translation" : "source/translation"
+    "class"       : "source/class"
   },
 
   "requires": {

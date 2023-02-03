@@ -16,8 +16,8 @@ npx qx compile
 
 After the compile step, you'll find the follwoing files: 
 
-- compiled/fullapp/index.js - the full qooxdoo JavaScript file 
-- compiled/basicapp/index.js - a basic version
+- build/fullapp/index.js - the full qooxdoo JavaScript file 
+- build/basicapp/index.js - a basic version of the qoooxdoo file
 
 
 ## See the demo app in action
@@ -30,7 +30,7 @@ npx qx serve
 
 
 ## Compression
-These generated JavaScript files compress very well. So if you put them behind a webserver make sure that the webserver compresses them if possible. The compressed files are smaller than 1MB.
+These generated JavaScript files compress well due to the fact there are many occurences of repeated strings in the minified source code. So if you put the files behind a webserver, make sure that the webserver compresses them (if possible). The compressed files are smaller than 1MB.
 
 Apache webserver example:
 ```
@@ -83,6 +83,7 @@ Microsoft IIS webserver example:
 </httpCompression>
 ```
 
+But always check the documentation of how to enable compression for JavaScript files (and other mime-types).
 
 ## Related projects
 There are totally three projects:

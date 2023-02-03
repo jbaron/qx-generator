@@ -3,3 +3,4 @@
 /qx_packages
 .package-cache.json
 /node_modules
+/build
